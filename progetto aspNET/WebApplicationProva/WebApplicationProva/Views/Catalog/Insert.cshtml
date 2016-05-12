@@ -1,0 +1,50 @@
+﻿
+<h2>Insert</h2>
+
+<br />
+<button id="btnInsert">Inserisci</button><br />
+<br />
+
+<h2>Inserimento prodotto</h2>
+<label for="txtName">Nome: </label><br />
+<input id="txtName" type="text" /><br />
+<br />
+<label for="txtPrice">Prezzo: </label><br />
+<input id="txtPrice" type="text" /><br />
+<br />
+
+<div id="pnlResult"></div>
+<div id="pnlInsertResult"></div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        var pnlInsert = $('#pnlResult');
+        var btnInsert = $('#btnInsert');
+        var txtInsertName = $('#txtName');
+        var txtInsertPrice = $('#txtPrice');
+        var pnlInsert = $('#pnlInsertResult');
+        var btnInsert = $('#btnInsert');
+
+        btnInsert.on('click', function () {
+            var obj = new Object();
+            obj.Name = txtInsertName.val();
+            obj.Price = txtInsertPrice.val();
+            var objJson = JSON.stringify(obj);
+
+            $.ajax({
+                url: '/api/products',
+                type: 'POST',
+                contentType: 'application/json',
+                data: objJson
+            }).done(function () {
+                pnlInsert.text('prodotto inserito');
+            }).error(function (e) {
+                pnlInsert.text('errore' + e.statusText);
+            });
+
+            pnlInsert.text(objJson);
+        })
+
+    </script>
+}

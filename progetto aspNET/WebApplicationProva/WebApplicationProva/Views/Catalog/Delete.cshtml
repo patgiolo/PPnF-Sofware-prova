@@ -1,0 +1,23 @@
+﻿<h2>Delete</h2>
+
+
+<div id="pnlResult"></div>
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        var pnl = $('#pnlResult');
+        var id = @ViewBag.id;
+
+        $.ajax({
+            url: '/api/products/' + id,
+            type: 'DELETE',
+        }).done(function () {
+            pnl.text("Prodotto eliminato");
+        }).error(function (e) {
+            alert('errore');
+        });
+
+    </script>
+}

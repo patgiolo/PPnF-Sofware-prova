@@ -1,0 +1,43 @@
+﻿
+<h2>All Products</h2>
+<br />
+<br />
+<button id="btnGetProducts" class="btn btn-success">Visualizza tutti</button>
+
+<br />
+<hr />
+
+<div id="pnlResult"></div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        var btn = $('#btnGetProducts');
+        var pnl = $('#pnlResult');
+
+        btn.on('click', function () {
+            $.ajax({
+                url: '/api/products',
+                type: 'GET',
+                dataType: 'json',
+            }).done(function (data) {
+                var html = '';
+                for (var i = 0; i < data.length; i++) {
+                    var p = data[i];
+
+                    html = html + '<h2>' + p.Name + '</h2>';
+                    html = html + '<p>' + p.Price + ' €</p>';
+                    html = html + '<a class="btn btn-primary" href="/Catalogo/Details/' + p.Id + '">Visualizza Dettaglio</a>';
+                    html = html + '      <a class="btn btn-info" href="/Catalogo/Edit/' + p.Id + '">Modifica</a>';
+                    html = html + '      <a class="btn btn-danger" href="/Catalogo/Delete/' + p.Id + '">Cancella</a>';
+                    html = html + '<hr />';
+
+                    pnl.html(html);
+                }
+            }).error(function (e) {
+                alert('errore');
+            });
+        });
+
+    </script>
+}

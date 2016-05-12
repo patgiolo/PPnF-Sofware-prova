@@ -1,0 +1,60 @@
+﻿
+<h2>Edit</h2>
+
+<label for="txtName">Nome: </label><br />
+<input id="txtName" type="text" /><br />
+<br />
+<label for="txtPrice">Prezzo: </label><br />
+<input id="txtPrice" type="text" /><br />
+<button id="btnInsert">Salva</button><br />
+
+<div id="pnlResult"></div>
+<div id="pnlInsertResult"></div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        var pnlInsert = $('#pnlResult');
+        var pnlDetails = $('#pnlDetails');
+        var btnInsert = $('#btnInsert');
+        var txtInsertName = $('#txtName');
+        var txtInsertPrice = $('#txtPrice');
+        var pnlInsert = $('#pnlInsertResult');
+        var btnInsert = $('#btnInsert');
+        var id = @ViewBag.id;
+
+
+        $.ajax({
+            url: '/api/products/' + id,
+            type: 'GET',
+            dataType: 'json',
+        }).done(function (data) {
+            txtInsertName.val(data.Name);
+            txtInsertPrice.val(data.Price);
+
+
+        }).error(function (e) {
+            alert('errore');
+        });
+
+
+        btnInsert.on('click', function () {
+            var obj = new Object();
+            obj.Name = txtInsertName.val();
+            obj.Price = txtInsertPrice.val();
+            var objJson = JSON.stringify(obj);
+
+            $.ajax({
+                url: '/api/products/' + id,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: objJson
+            }).done(function () {
+                pnlInsert.text('prodotto modificato');
+            }).error(function (e) {
+                pnlInsert.text('errore' + e.statusText);
+            });
+        })
+
+    </script>
+}

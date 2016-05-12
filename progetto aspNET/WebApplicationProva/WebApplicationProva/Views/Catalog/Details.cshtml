@@ -1,0 +1,30 @@
+﻿<h2>Details</h2>
+
+<div id="pnlResult"></div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        var pnl = $('#pnlResult');
+        var id = @ViewBag.id;
+
+
+        $.ajax({
+            url: '/api/products/' + id,
+            type: 'GET',
+            dataType: 'json',
+        }).done(function (data) {
+            var html = '';
+
+            html = html + '<h2>' + data.Name + '</h2>';
+            html = html + '<p>' + data.Price + '</p>';
+            html = html + '<hr />';
+
+            pnl.html(html);
+
+        }).error(function (e) {
+            alert('errore');
+        });
+
+    </script>
+}
